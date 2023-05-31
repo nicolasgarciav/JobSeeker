@@ -1,2 +1,23 @@
 # JobSeeker
-This code implements a web application called HelpMate that connects job seekers and businesses, allowing users to register, create profiles, post job listings, search and filter listings, apply for jobs, and communicate with each other through messaging.
+
+JobSeeker is a startup project that helps job seekers manage their profiles and search for job listings. It provides a platform for users to create profiles, store their job-related information, and browse available job listings.
+
+## Features
+
+- User registration and authentication
+- Profile creation and management
+- Job listing creation and management
+- Job search functionality
+- ...
+
+## Technologies Used
+
+- Python
+- Flask
+- SQLAlchemy
+- Flask-RESTful
+- ...
+
+## Installation
+
+1. Clone the repository:
