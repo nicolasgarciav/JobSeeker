@@ -1,0 +1,29 @@
+# Byte-compiled / optimized files
+__pycache__/
+*.pyc
+
+# Virtual environments
+venv/
+env/
+*.env
+
+# Logs and databases
+*.log
+*.sqlite3
+
+# Other generated files
+.DS_Store
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Dependency directories
+dist/
+build/
+
+# Instance directory
+/Instance/helpmate.db
+
+# Alembic migrations
+/migrations/versions/
