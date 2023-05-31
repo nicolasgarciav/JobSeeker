@@ -67,3 +67,13 @@ class SavedJob(db.Model):
 
     job_seeker = db.relationship("User", backref="saved_jobs")
     job_listing = db.relationship("JobListing", backref="saved_by_users")
+
+class TimeSlot(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    start_time = db.Column(db.Time, nullable=False)
+    end_time = db.Column(db.Time, nullable=False)
+    day_of_week = db.Column(db.String(10), nullable=False)
+
+    def __repr__(self):
+        return f'<TimeSlot {self.start_time} - {self.end_time} on {self.day_of_week}>'

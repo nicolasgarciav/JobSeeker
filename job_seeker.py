@@ -1,7 +1,7 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, abort
 from extensions import db
-from models import JobListing, JobApplication, User, SavedJob
-from flask_login import login_required
+from models import JobListing, JobApplication, User, SavedJob, TimeSlot
+from flask_login import login_required, current_user
 
 
 job_seeker_bp = Blueprint('job_seeker', __name__)
@@ -88,3 +88,44 @@ def unsave_job(listing_id):
     return jsonify({"message": "Job removed from saved jobs"}), 200
 
 
+@job_seeker_bp.route('/time_slots', methods=['POST'])
+@login_required
+def add_time_slot():
+    data = request.get_json()
+
+    new_slot = TimeSlot(
+        user_id=current_user.id,
+        start_time=data['start_time'],
+        end_time=data['end_time'],
+        day_of_week=data['day_of_week']
+    )
+
+    db.session.add(new_slot)
+    db.session.commit()
+
+    return jsonify({"message": "Time slot added successfully"}), 201
+
+@job_seeker_bp.route('/time_slots', methods=['GET'])
+@login_required
+def get_time_slots():
+    time_slots = TimeSlot.query.filter_by(user_id=current_user.id).all()
+
+    return jsonify([{
+        "id": slot.id,
+        "start_time": slot.start_time,
+        "end_time": slot.end_time,
+        "day_of_week": slot.day_of_week
+    } for slot in time_slots]), 200
+
+@job_seeker_bp.route('/time_slots/<int:slot_id>', methods=['DELETE'])
+@login_required
+def delete_time_slot(slot_id):
+    slot = TimeSlot.query.get_or_404(slot_id)
+
+    if slot.user_id != current_user.id:
+        abort(403)
+
+    db.session.delete(slot)
+    db.session.commit()
+
+    return jsonify({"message": "Time slot deleted successfully"}), 200
